@@ -2,6 +2,7 @@ package com.naf.toast;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,10 +27,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.text11:
-                ToastUtil.makeText(this,++i+"",ToastUtil.LENGTH_SHORT).show();
+                ToastUtil2.showText(this,++i+"",ToastUtil.LENGTH_SHORT);
                 break;
             case R.id.text22:
-                ToastUtil.makeText(this,++i+"",ToastUtil.LENGTH_SHORT).show();
+                ToastUtil2.showText(this,++i+"",ToastUtil.LENGTH_SHORT);
                 break;
         }
     }
@@ -37,6 +38,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        ToastUtil.cancelToast();
+        ToastUtil2.cancelToast();
+    }
+    //重要，防止在新的activity还继续toast
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            ToastUtil2.cancelToast();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
